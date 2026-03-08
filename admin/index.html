@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mangwao Admin Panel</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+      background-color: #f8f9fa;
+      color: #1f2937;
+    }
+
+    .header {
+      background-color: #1a3a52;
+      color: white;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .header h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 2rem auto;
+      padding: 0 2rem;
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      border: 1px solid #e5e7eb;
+    }
+
+    .stat-label {
+      font-size: 0.875rem;
+      color: #6b7280;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #1a3a52;
+    }
+
+    .section {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      border: 1px solid #e5e7eb;
+    }
+
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #1f2937;
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 1rem;
+      border-bottom: 2px solid #e5e7eb;
+      margin-bottom: 1.5rem;
+    }
+
+    .nav-tab {
+      padding: 0.75rem 1.5rem;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      font-weight: 500;
+      color: #6b7280;
+      transition: all 0.2s;
+    }
+
+    .nav-tab.active {
+      color: #1a3a52;
+      border-bottom-color: #1a3a52;
+    }
+
+    .nav-tab:hover {
+      color: #1a3a52;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .table th {
+      text-align: left;
+      padding: 0.75rem;
+      border-bottom: 2px solid #e5e7eb;
+      font-weight: 600;
+      font-size: 0.875rem;
+      color: #6b7280;
+      text-transform: uppercase;
+    }
+
+    .table td {
+      padding: 0.75rem;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .badge-success {
+      background-color: #d1fae5;
+      color: #065f46;
+    }
+
+    .badge-warning {
+      background-color: #fef3c7;
+      color: #92400e;
+    }
+
+    .badge-danger {
+      background-color: #fee2e2;
+      color: #991b1b;
+    }
+
+    .badge-info {
+      background-color: #dbeafe;
+      color: #1e40af;
+    }
+
+    .btn {
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      border: none;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background-color: #1a3a52;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: #2c5270;
+    }
+
+    .btn-secondary {
+      background-color: #20b2aa;
+      color: white;
+    }
+
+    .btn-sm {
+      padding: 0.25rem 0.75rem;
+      font-size: 0.875rem;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: #6b7280;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Mangwao Admin Panel</h1>
+  </div>
+
+  <div class="container">
+    <!-- Dashboard Stats -->
+    <div class="dashboard-grid">
+      <div class="stat-card">
+        <div class="stat-label">Active Orders</div>
+        <div class="stat-value">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Online Riders</div>
+        <div class="stat-value">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Pending KYC</div>
+        <div class="stat-value">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Open Disputes</div>
+        <div class="stat-value">0</div>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="nav-tabs">
+      <div class="nav-tab active" onclick="showTab('orders')">Orders</div>
+      <div class="nav-tab" onclick="showTab('riders')">Riders</div>
+      <div class="nav-tab" onclick="showTab('disputes')">Disputes</div>
+      <div class="nav-tab" onclick="showTab('pricing')">Pricing</div>
+      <div class="nav-tab" onclick="showTab('settings')">Settings</div>
+    </div>
+
+    <!-- Orders Tab -->
+    <div id="tab-orders" class="section">
+      <h2 class="section-title">Recent Orders</h2>
+      <div class="empty-state">
+        <p>No orders yet. Orders will appear here once customers start creating deliveries.</p>
+      </div>
+    </div>
+
+    <!-- Riders Tab -->
+    <div id="tab-riders" class="section" style="display: none;">
+      <h2 class="section-title">Rider Management</h2>
+      <div class="empty-state">
+        <p>No riders registered. Riders pending KYC approval will appear here.</p>
+      </div>
+    </div>
+
+    <!-- Disputes Tab -->
+    <div id="tab-disputes" class="section" style="display: none;">
+      <h2 class="section-title">Dispute Resolution</h2>
+      <div class="empty-state">
+        <p>No disputes reported. Dispute tickets will appear here for review.</p>
+      </div>
+    </div>
+
+    <!-- Pricing Tab -->
+    <div id="tab-pricing" class="section" style="display: none;">
+      <h2 class="section-title">Pricing Configuration</h2>
+      <p style="margin-bottom: 1rem; color: #6b7280;">Current pricing rules for Burewala (20 km radius)</p>
+      
+      <div style="max-width: 500px;">
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Base Fee (PKR)</label>
+          <input type="number" value="50" style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 6px;">
+        </div>
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Per KM Fee (PKR)</label>
+          <input type="number" value="15" style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 6px;">
+        </div>
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Surge Multiplier</label>
+          <input type="number" step="0.1" value="1.0" style="width: 100%; padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 6px;">
+        </div>
+        <button class="btn btn-primary">Save Pricing</button>
+      </div>
+    </div>
+
+    <!-- Settings Tab -->
+    <div id="tab-settings" class="section" style="display: none;">
+      <h2 class="section-title">App Settings</h2>
+      
+      <h3 style="margin-top: 1.5rem; margin-bottom: 1rem; font-size: 1rem; font-weight: 600;">Restricted Items</h3>
+      <ul style="list-style: disc; margin-left: 1.5rem; color: #6b7280;">
+        <li style="margin-bottom: 0.5rem;">Alcohol (All alcoholic beverages prohibited)</li>
+        <li style="margin-bottom: 0.5rem;">Cigarettes (All tobacco products prohibited)</li>
+        <li style="margin-bottom: 0.5rem;">Narcotics (All illegal substances prohibited)</li>
+        <li style="margin-bottom: 0.5rem;">Weapons (Any type of weapon prohibited)</li>
+      </ul>
+
+      <h3 style="margin-top: 2rem; margin-bottom: 1rem; font-size: 1rem; font-weight: 600;">Rider Deposit Tiers</h3>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Tier</th>
+            <th>Deposit Amount</th>
+            <th>Benefits</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge badge-info">Basic</span></td>
+            <td>PKR 1,500</td>
+            <td>Standard access</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-warning">Premium</span></td>
+            <td>PKR 5,000</td>
+            <td>Priority job feed</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-success">Gold</span></td>
+            <td>PKR 10,000</td>
+            <td>Premium features</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    function showTab(tabName) {
+      // Hide all tabs
+      document.querySelectorAll('[id^="tab-"]').forEach(tab => {
+        tab.style.display = 'none';
+      });
+
+      // Remove active class from all nav tabs
+      document.querySelectorAll('.nav-tab').forEach(navTab => {
+        navTab.classList.remove('active');
+      });
+
+      // Show selected tab
+      document.getElementById('tab-' + tabName).style.display = 'block';
+
+      // Add active class to clicked nav tab
+      event.target.classList.add('active');
+    }
+
+    // Note: This is a static demo. In production, connect to Supabase
+    // and use real-time data subscriptions for live updates.
+    console.log('Admin panel loaded. Connect to Supabase for live data.');
+  </script>
+</body>
+</html>
